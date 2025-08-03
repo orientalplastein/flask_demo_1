@@ -29,7 +29,7 @@
         </div>
 
         <div class="post-content">
-            {{ post.content | safe}}
+            {{ post.content | replace(' ', '&nbsp;') | safe}}
             {% if post.image_path %}
             <p class="post-img"><img src="{{ url_for('static',filename=post.image_path) }}" alt="" style="max-width: -webkit-fill-available"></p>
             {% endif %}
