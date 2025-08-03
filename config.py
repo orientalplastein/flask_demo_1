@@ -17,6 +17,7 @@ MAIL_DEFAULT_SENDER = "cg1334931062@163.com"
 
 #cookie设置
 SECRET_KEY = "dqdweasdzczxca"
+WTF_CSRF_TIME_LIMIT = 86400
 
 #文件上传位置
 UPLOAD_FOLDER = os.path.join('static', 'post_updateIMG')

@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, session
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, session, make_response
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_wtf.csrf import generate_csrf
 from sqlalchemy.sql.functions import user
 from models import User,EmailCaptcha
 import random,string,re
@@ -235,3 +236,9 @@ def verify_code():
         'valid': True,
         'message': '验证码验证成功'
     }), 200
+
+@bp.route('/api/csrf-token', methods=['GET'])
+def get_csrf_token():
+    response = make_response(jsonify({"status": "success"}))
+    response.set_cookie('csrf_token', generate_csrf(), secure=False, samesite='Lax')
+    return response

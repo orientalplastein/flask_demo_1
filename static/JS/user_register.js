@@ -68,44 +68,84 @@ $(document).ready(function() {
         }
     }
 
+    // 在user_register.js中添加CSRF令牌获取函数
+    let csrfToken = '';
+
+    // 获取CSRF令牌
+    function getCsrfToken() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: 'api/csrf-token',
+                type: 'GET',
+                xhrFields: {
+                    withCredentials: true  // 允许跨域请求携带Cookie
+                },
+                success: function(response) {
+                    // 从Cookie中获取CSRF令牌
+                    csrfToken = getCookie('csrf_token');
+                    resolve();
+                },
+                error: function(error) {
+                    console.error('获取CSRF令牌失败:', error);
+                    reject('获取安全令牌失败，请刷新页面重试');
+                }
+            });
+        });
+    }
+
+    // 辅助函数：从Cookie中获取值
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return '';
+    }
+
     /**
      * 发送验证码AJAX请求
      * @param {string} email - 电子邮箱地址
      * @returns {Promise} - jQuery Deferred Promise
      */
     function sendVerificationCode(email) {
-        return $.Deferred(function(defer) {
+        return $.Deferred(async function (defer) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 defer.reject('请输入有效的电子邮箱地址');
                 return;
             }
 
+            if (!csrfToken) {
+                await getCsrfToken();
+            }
+
             $.ajax({
                 url: '/user/api/send-verification-code',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ email: email }),
+                headers: {
+                    'X-CSRFToken': csrfToken  // 添加CSRF令牌
+                },
+                data: JSON.stringify({email: email}),
                 timeout: 30000
             })
-            .done(function(response) {
-                if (response && response.success) {
-                    defer.resolve(response.message || '验证码已发送至您的邮箱，请查收');
-                } else {
-                    defer.reject(response ? response.message : '验证码发送失败');
-                }
-            })
-            .fail(function(xhr, status, error) {
-                if (status === 'timeout') {
-                    defer.reject('请求超时，请检查网络连接');
-                } else if (xhr.status === 404) {
-                    defer.reject('后端接口未找到，请检查URL是否正确');
-                } else if (xhr.status === 500) {
-                    defer.reject('服务器错误，请稍后重试');
-                } else {
-                    defer.reject(error || '发送请求失败，请稍后重试');
-                }
-            });
+                .done(function (response) {
+                    if (response && response.success) {
+                        defer.resolve(response.message || '验证码已发送至您的邮箱，请查收');
+                    } else {
+                        defer.reject(response ? response.message : '验证码发送失败');
+                    }
+                })
+                .fail(function (xhr, status, error) {
+                    if (status === 'timeout') {
+                        defer.reject('请求超时，请检查网络连接');
+                    } else if (xhr.status === 404) {
+                        defer.reject('后端接口未找到，请检查URL是否正确');
+                    } else if (xhr.status === 500) {
+                        defer.reject('服务器错误，请稍后重试');
+                    } else {
+                        defer.reject(error || '发送请求失败，请稍后重试');
+                    }
+                });
         }).promise();
     }
 
