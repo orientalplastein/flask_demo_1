@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
+    <title>{% block title %}忘书-Echo{% endblock %}</title>
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdn.jsdelivr.net_npm_font-awesome@4.7.0_css_font-awesome.css') }}>#}
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdnjs.cloudflare.com_ajax_libs_font-awesome_6.7.2_css_all.css') }}>#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <style>
+        .zhihu-nav {
+            background-color: rgb(211 227 226 / 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: 56px;
+            box-sizing: border-box;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-right: 24px;
+        }
+
+        .logo i {
+            color: #0f88eb;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #121212;
+            margin-left: 4px;
+        }
+
+        .main-nav {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #86909c;
+            font-size: 15px;
+            padding: 0 12px;
+            height: 52px;
+            line-height: 52px;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #0f88eb;
+        }
+
+        .nav-middle {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 34px;
+            padding: 0 16px 0 12px;
+            background-color: #f5f6f7;
+            border: none;
+            border-radius: 17px;
+            font-size: 14px;
+            outline: none;
+            transition: background-color 0.2s;
+        }
+
+        .search-input:focus {
+            background-color: #ffffff;
+            border: 1px solid #0f88eb;
+            box-shadow: 0 0 0 2px rgba(15, 136, 235, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #86909c;
+            cursor: pointer;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+        }
+
+        button.avatar-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: none;
+        }
+
+        .user-meta {
+            padding: 5px 5px;
+            border-bottom: 1px solid #f0f2f7;
+        }
+
+        .user-meta-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-meta-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .user-meta-info {
+            flex: 1;
+        }
+
+        .user-meta-name {
+            font-size: 18px;
+            font-weight: bolder;
+            color: #121212;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .user-meta-bio {
+            white-space: normal; /* 允许文本正常换行（默认值，但需确保未被覆盖） */
+            word-wrap: break-word; /* 允许长单词/URL在任意位置换行 */
+            overflow-wrap: break-word; /* 现代浏览器推荐属性，替代word-wrap */
+            /* 2. 容器宽度限制（必须设置） */
+            width: 180px; /* 固定宽度（根据布局调整） */
+            /* 或使用响应式宽度 */
+            max-width: 100%; /* 不超过父容器宽度 */
+            /* 3. 优化可读性 */
+            font-size: small;
+            color: indianred;
+            {#font-family: 楷体, serif;#}
+            line-height: 1; /* 行高，建议1.4-1.6 */
+            padding: 8px 12px; /* 内边距，避免文本贴边 */
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            margin: 8px 0;
+            background-color: #f0f2f7;
+            border: none;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 10px 0 10px 0;
+            clear: both;
+            font-weight: 400;
+            color: #121212;
+            text-align: left;
+            white-space: nowrap;
+            background: none;
+            border: 0;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            pointer-events: auto;
+            z-index: 1002
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f6f7;
+        }
+
+        .dropdown-item i {
+            margin-right: 8px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-item.text-danger {
+            color: #f22f46;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background-color: rgba(242, 47, 70, 0.05);
+            color: #f22f46;
+        }
+
+        .write-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f88eb;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            height: 32px;
+        }
+
+        .write-btn i {
+            margin-right: 6px;
+            font-size: 14px;
+        }
+
+        .write-btn:hover {
+            background-color: #0c77d2;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .notify-link {
+            color: #86909c;
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .notify-link:hover {
+            color: #0f88eb;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: #f22f46;
+            color: white;
+            font-size: 12px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 修改1: 添加头像悬停放大效果 */
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 1px solid #e5e6eb;
+            transition: all 0.3s ease; /* 添加过渡效果 */
+            transform-origin: top left;
+        }
+
+        .user-avatar:hover {
+            border-color: #0f88eb;
+            transform: scale(5); /* 放大15% */
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); /* 添加轻微阴影增强效果 */
+            border-radius: 10%;
+        }
+
+
+        /* 修改2: 下拉菜单改为点击触发，移除hover显示 */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: auto;
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            display: none; /* 默认隐藏 */
+            margin: 0;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        /* 移除原有的hover触发 */
+        /* .user-menu:hover .dropdown-menu { display: block; } */
+
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn {
+            color: #86909c;
+            text-decoration: none;
+            margin-right: 16px;
+            font-size: 14px;
+        }
+
+        .register-btn {
+            background-color: #0f88eb;
+            color: white;
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .register-btn:hover {
+            background-color: #0c77d2;
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: #121212;
+            font-size: 20px;
+            margin-left: 16px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .mobile-nav-menu {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: none;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 12px 20px;
+            color: #121212;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .mobile-menu-item:hover {
+            background-color: #f5f6f7;
+        }
+
+        .mobile-register {
+            background-color: #0f88eb;
+            color: white !important;
+            margin: 8px 16px;
+            border-radius: 4px;
+        }
+
+        /* 点击外部区域关闭下拉菜单 */
+        .dropdown-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: auto;
+            background: transparent;
+        }
+
+        .dropdown-backdrop.show {
+            display: block;
+        }
+    </style>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="zhihu-nav">
+        <div class="nav-container">
+            <!-- 左侧Logo和导航 -->
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <i class="fa fa-book"></i>
+                    <span class="logo-text" onclick="window.location.href='{{ url_for('home') }}'">忘书</span>
+                </a>
+                <ul class="main-nav">
+                    <li><a href="{{ url_for('QA.qa_index') }}" class="nav-item">首页</a></li>
+                    <li><a href="#" class="nav-item">发现</a></li>
+                    <li><a href="#" class="nav-item">话题</a></li>
+                </ul>
+            </div>
+
+            <!-- 中间搜索框 -->
+            <div class="nav-middle">
+                <div class="search-container">
+                    <form action="/QA/api/search" method="GET">
+                        <label>
+                            <input type="text" class="search-input" placeholder="搜索文章、问题或人" name="sp">
+                        </label>
+                        <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 右侧用户功能区 -->
+            <div class="nav-right">
+                {% if current_user.is_authenticated %}
+                    <!-- 右侧用户功能区 （登录）-->
+                    <div class="user-actions">
+                        <a href="{{ url_for('QA.post') }}">
+                            <button class="write-btn">
+                            <i class="fa fa-pencil"></i>创作
+                            </button>
+                        </a>
+
+                        <div class="notification-icon">
+                            <a href="#" class="notify-link">
+                                <i class="fa fa-bell-o"></i>
+{#                                <span class="unread-badge">0</span>#}
+                            </a>
+                        </div>
+
+                        <!-- 用户头像和下拉菜单 -->
+                        <div class="user-menu">
+                            <img src="{{url_for('static',filename=current_user.avatar)}}" alt="用户头像" class="user-avatar" id="userAvatar">
+
+                            <!-- 下拉菜单内容 -->
+                            <div class="dropdown-menu" id="userDropdown">
+                                <div class="user-meta">
+                                    <div class="user-meta-container">
+                                        <img src="{{url_for('static',filename=current_user.avatar)}}" alt="用户头像" class="user-meta-avatar">
+                                        <div class="user-meta-info">
+                                            <div class="user-meta-name">{{ current_user.username }}</div>
+                                            <div class="user-meta-bio">{{ current_user.signature }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('UserLoginRegistration.user_profile') }}" class="dropdown-item"><i class="fa fa-user"></i>个人主页</a>
+                                <a href="#" class="dropdown-item"><i class="fa fa-cog"></i>设置</a>
+                                <hr class="dropdown-divider">
+                                <a href="/user/logout" class="dropdown-item text-danger"><i class="fa fa-sign-out"></i>退出登录</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- 右侧用户功能区 （未登录）-->
+                    <div class="auth-buttons">
+                        <a href="/user/login" class="login-btn">登录</a>
+                        <a href="/user/register" class="register-btn">注册</a>
+                    </div>
+                {% endif %}
+            </div>
+
+
+        </div>
+    </nav>
+
+    <div class="page-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 添加点击外部关闭下拉菜单的遮罩层 -->
+    <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+
+    <script>
+        // 修改3: 添加点击事件控制下拉菜单显示/隐藏
+        document.addEventListener('DOMContentLoaded', function() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userDropdown = document.getElementById('userDropdown');
+            const dropdownBackdrop = document.getElementById('dropdownBackdrop');
+            
+            // 点击头像切换下拉菜单
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation(); // 阻止事件冒泡
+                userDropdown.classList.toggle('show');
+                dropdownBackdrop.classList.toggle('show');
+            });
+            
+            // 点击遮罩层关闭下拉菜单
+            dropdownBackdrop.addEventListener('click', function() {
+                userDropdown.classList.remove('show');
+                dropdownBackdrop.classList.remove('show');
+            });
+            
+            // 点击页面其他地方关闭下拉菜单
+            document.addEventListener('click', function() {
+                userDropdown.classList.remove('show');
+                dropdownBackdrop.classList.remove('show');
+            });
+            
+            // 防止下拉菜单内部点击关闭菜单
+            userDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

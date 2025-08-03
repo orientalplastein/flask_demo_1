@@ -1,0 +1,268 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 容器样式 */
+.page-content{
+    max-width: 900px; /* 与导航栏最大宽度保持一致 */
+    margin: 0 auto; /* 水平居中关键属性 */
+    padding: 20px;
+    width: 100%; /* 确保容器占满可用空间 */
+    box-sizing: border-box; /* 确保padding不会增加容器总宽度 */
+    position: fixed;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 900px;
+    padding: 24px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        border-radius: 0;
+        min-height: 100vh;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* 标题样式 */
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 8px;
+    text-align: center;
+    gap: 12px;
+}
+
+.page-subtitle{
+    font-size: 14px;
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .page-title {
+        font-size: 32px;
+    }
+}
+
+.title-icon {
+    color: #6366f1;
+    margin-right: 8px;
+}
+
+/* 表单样式 */
+.post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+input#title {
+    font-family: 'Microsoft YaHei', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-textarea {
+    min-height: 120px;
+    height: 450px;
+    resize: none;
+    /*font-family: 'Microsoft YaHei', Tahoma, Geneva, Verdana, sans-serif;*/
+    font-family: 宋体, serif;
+}
+
+/* 图片上传区域 */
+.image-upload-container {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.image-upload-container:hover {
+    border-color: #6366f1;
+}
+
+/* 确保容器相对定位，为文件输入框提供定位参考 */
+.image-upload-container {
+    position: relative;
+    min-height: 150px; /* 确保有足够的点击区域 */
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.upload-prompt {
+    padding: 32px 0;
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.upload-text {
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.upload-hint {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.image-preview {
+    display: none;
+}
+
+.preview-image {
+    max-height: 200px;
+    object-fit: contain;
+    margin: 0 auto 8px;
+    display: block;
+}
+
+.remove-image {
+    color: #ef4444;
+    font-size: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 修改图片输入框样式 - 核心修复 */
+.image-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* 保持元素可点击但不可见 */
+    cursor: pointer;
+    z-index: 10; /* 确保在其他元素之上 */
+}
+
+
+/* 错误提示 */
+.error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+/* 按钮样式 */
+.button-group {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.submit-button {
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    text-decoration: none;
+}
+
+.submit-button:hover {
+    background-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+}
+
+/* 提交反馈 */
+.submit-feedback {
+    margin-top: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.success-feedback {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.error-feedback {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}

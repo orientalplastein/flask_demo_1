@@ -1,0 +1,72 @@
+{% extends "universal_navbar.html" %}
+
+{#{% block meta %}#}
+{#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
+{#{% endblock %}#}
+
+{% block title %}忘书Echo-登录{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href={{ url_for('static',filename='CSS/user_login.css') }}>
+    <script src={{ url_for('static',filename='jquery/jquery-3.6.0.min.js') }}></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+	<div class="login-container">
+        <div class="login-header">
+            <h2>用户登录</h2>
+            <p>欢迎回来，请登录您的账号</p>
+        </div>
+
+        <div class="login-body">
+            <!-- 消息显示区域 -->
+            <div id="message-area" class="message-area"></div>
+
+            <form method="POST" action="/user/login" id="login-form" class="login-form">
+                <!-- 用户名/邮箱 -->
+                <div class="form-group">
+                    <label for="identifier" class="form-label">用户名/邮箱</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="icon-user"></i></span>
+                        <input type="text" id="identifier" name="identifier" class="form-control"
+                               placeholder="请输入用户名或邮箱" required>
+                    </div>
+                    <div class="identifier-error" id="identifier-error"></div>
+                </div>
+
+                <!-- 密码 -->
+                <div class="form-group">
+                    <label for="password" class="form-label">密码</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="icon-password"></i></span>
+                        <input type="password" id="password" name="password" class="form-control"
+                               placeholder="请输入密码" required>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+
+                <!-- 选项 -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember" id="remember-me">
+                        记住我
+                    </label>
+                    <a href="/" class="forgot-password">忘记密码？</a>
+                </div>
+
+                <!-- 提交按钮 -->
+                <button type="submit" id="submit-btn" class="btn btn-primary w-100">登录</button>
+
+                <!-- 注册链接 -->
+                <div class="register-link">
+                    还没有账号？<a href="/user/register">立即注册</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src={{ url_for('static',filename='JS/user_login.js') }}></script>
+{% endblock %}

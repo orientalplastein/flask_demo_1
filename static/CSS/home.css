@@ -1,0 +1,221 @@
+ body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: linear-gradient(135deg, #e0f7fa, #f3e5f5, #e8f5e9);
+        position: relative;
+    }
+
+.bg-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.bg-shape {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 15s infinite ease-in-out;
+}
+
+.circle {
+    border-radius: 50%;
+    background: linear-gradient(45deg, #80deea, #4fc3f7);
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #ce93d8;
+}
+
+.square {
+    background: linear-gradient(45deg, #a5d6a7, #81c784);
+}
+
+.pentagon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, #ffcc80, #ffa726);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+.content-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    animation: fadeInDown 1s ease-out;
+    line-height: 1.2;
+}
+
+.sub-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 2.5rem;
+    animation: fadeIn 1.5s ease-out;
+    line-height: 1.4;
+}
+
+.explore-btn {
+    position: relative;
+    z-index: 1;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(45deg, #5c6bc0, #3949ab);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-out;
+}
+/*.explore-text{*/
+/*    font-size: 18px;*/
+/*    font-weight: 500;*/
+/*    text-decoration: none;*/
+/*    color: whitesmoke;*/
+/*}*/
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    background: linear-gradient(45deg, #3949ab, #5c6bc0);
+}
+
+.explore-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.explore-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.explore-btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50px;
+    z-index: -1;
+    opacity: 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+    70% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+    .sub-title {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    .sub-title {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .explore-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}

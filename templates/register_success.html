@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册成功 - 忘书Echo</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 成功提示容器 */
+        .success-container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 成功图标 */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        /* 标题和消息 */
+        .success-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* 倒计时和链接 */
+        .countdown-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .redirect-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .redirect-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .success-title {
+                font-size: 20px;
+            }
+            
+            .success-message {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h1 class="success-title">注册成功！</h1>
+        <p class="success-message">
+            感谢您的注册，您的账号已创建成功。<br>
+            我们将在 <span id="countdown">3</span> 秒后自动跳转到首页...
+        </p>
+        <a href="/" class="btn">立即前往首页</a>
+        <p class="countdown-info">
+            如果没有自动跳转，请 <a href="/" class="redirect-link">点击这里</a>
+        </p>
+    </div>
+
+    <script>
+        // 自动跳转功能
+        document.addEventListener('DOMContentLoaded', function() {
+            let seconds = 3; // 3秒后跳转
+            const countdownElement = document.getElementById('countdown');
+            
+            if (countdownElement) {
+                const countdownInterval = setInterval(function() {
+                    seconds--;
+                    countdownElement.textContent = seconds;
+                    
+                    if (seconds <= 0) {
+                        clearInterval(countdownInterval);
+                        // 跳转到首页
+                        window.location.href = '/';
+                    }
+                }, 1000);
+            } else {
+                // 如果没有倒计时元素，2秒后直接跳转
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

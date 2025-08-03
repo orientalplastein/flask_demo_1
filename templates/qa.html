@@ -1,0 +1,106 @@
+{% extends "universal_navbar.html" %}
+
+{% block title %}忘书Echo-探索{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href={{ url_for('static',filename='CSS/qa.css') }}>
+    <script src="{{ url_for('static',filename="jquery/jquery-3.6.0.min.js") }}"></script>
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdn.jsdelivr.net_npm_font-awesome@4.7.0_css_font-awesome.css') }}>#}
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdnjs.cloudflare.com_ajax_libs_font-awesome_6.7.2_css_all.css') }}>#}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+	<main class="site-main">
+        <div class="container">
+            <div class="content-area">
+                <div class="post-list">
+                    <!-- 帖子1 -->
+                    {% for post in posts %}
+                    <article class="post-card">
+                        <div class="post-author">
+                            <img src="{{ url_for('static',filename=post.author.avatar ) }}" alt="张小明" class="author-avatar">
+                            <div class="author-info">
+                                <span class="author-name">{{ post.author.username }}</span>
+                                <span class="post-time">{{ post.create_time }}</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <h2 class="post-title"><a href="{{ url_for('QA.post_detail',post_id=post.id) }}">{{ post.title }}</a></h2>
+                            <hr style="border-color: skyblue;margin: 0 20px;">
+                            <div class="post-excerpt">
+                                {{ post.content | safe}}
+                            </div>
+{#                            <p class="post-excerpt">{{ post.content | safe}}</p>#}
+                            <button class="toggle-content" style="display: none;">显示更多</button>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                <!-- 分页控件容器 -->
+{#                <div class="pagination">#}
+{#                    {% if page > 1 %}#}
+{#                        <a href="{{ url_for('QA.qa_index', page=page - 1) }}">上一页</a>#}
+{#                    {% endif %}#}
+{##}
+{#                    {% for p in range(1, total_pages + 1) %}#}
+{#                        <a href="{{ url_for('QA.qa_index', page=p) }}" {% if p == page %}class="active"{% endif %}>{{ p }}</a>#}
+{#                    {% endfor %}#}
+{##}
+{#                    {% if page < total_pages %}#}
+{#                        <a href="{{ url_for('QA.qa_index', page=page + 1) }}">下一页</a>#}
+{#                    {% endif %}#}
+{#                </div>#}
+                <div class="pagination">
+                    <li class="prev">
+                    {% if posts.has_prev %}
+                      <a href="{{ url_for('QA.qa_index', page=posts.prev_num) }}"> ← </a>
+                    {% else %}
+                      <a href="#" class="disabled"> ← </a>
+                    {% endif %}
+                    </li>
+
+                    {% if posts.page > 2 %}
+                    <li class="first">
+                      <a href="{{ url_for('QA.qa_index', page=1) }}">1</a>
+                    </li>
+                    {% if posts.page > 3 %}
+                      <li><span class="ellipsis">...</span></li>
+                    {% endif %}
+                    {% endif %}
+
+                    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+                    {% if page_num %}
+                      <li>
+                        <a href="{{ url_for('QA.qa_index', page=page_num) }}" {% if page_num == posts.page %}class="active"{% endif %}>
+                          {{ page_num }}
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if posts.page < posts.pages - 1 %}
+                    {% if posts.page < posts.pages - 2 %}
+                      <li><span class="ellipsis">...</span></li>
+                    {% endif %}
+                    <li class="last">
+                      <a href="{{ url_for('QA.qa_index', page=posts.pages) }}">{{ posts.pages }}</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="next">
+                    {% if posts.has_next %}
+                      <a href="{{ url_for('QA.qa_index', page=posts.next_num) }}"> → </a>
+                    {% else %}
+                      <a href="#" class="disabled"> → </a>
+                    {% endif %}
+                    </li>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src={{ url_for('static',filename='JS/qa.js') }}></script>
+{% endblock %}

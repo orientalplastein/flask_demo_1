@@ -1,0 +1,104 @@
+{% extends "universal_navbar.html" %}
+
+{% block title %}忘书Echo-个人中心{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href={{ url_for('static',filename='CSS/user_profile.css') }}>
+    <script src="{{ url_for('static',filename="jquery/jquery-3.6.0.min.js") }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+	<div class="profile-container">
+        <h1>个人中心</h1>
+
+        <!-- 头像设置区域 -->
+        <div class="avatar-section">
+            <h2>头像设置</h2>
+            <div class="current-avatar">
+                <img id="currentAvatar" src="{{ url_for('static',filename=current_user.avatar) }}" alt="当前头像">
+            </div>
+            <div class="avatar-options">
+                <div class="avatar-option selected" data-src="{{ url_for('static',filename='avatar/default_avatar1.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar1.jpg') }}" alt="头像1">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar2.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar2.jpg') }}" alt="头像2">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar3.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar3.jpg') }}" alt="头像3">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar4.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar4.jpg') }}" alt="头像4">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar5.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar5.jpg') }}" alt="头像5">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar6.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar6.jpg') }}" alt="头像6">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar7.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar7.jpg') }}" alt="头像7">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar8.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar8.jpg') }}" alt="头像8">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar9.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar9.jpg') }}" alt="头像9">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar10.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar10.jpg') }}" alt="头像10">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar11.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar11.jpg') }}" alt="头像11">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar12.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar12.jpg') }}" alt="头像12">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar13.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar13.jpg') }}" alt="头像13">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar14.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar14.jpg') }}" alt="头像14">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar15.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar15.jpg') }}" alt="头像15">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar16.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar16.jpg') }}" alt="头像16">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar17.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar17.jpg') }}" alt="头像17">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar18.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar18.jpg') }}" alt="头像18">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar19.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar19.jpg') }}" alt="头像19">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar20.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar20.jpg') }}" alt="头像20">
+                </div>
+                <div class="avatar-option" data-src="{{ url_for('static',filename='avatar/default_avatar21.jpg') }}">
+                    <img src="{{ url_for('static',filename='avatar/default_avatar21.jpg') }}" alt="头像21">
+                </div>
+            </div>
+        </div>
+
+        <!-- 个性签名设置区域 -->
+        <div class="signature-section">
+            <h2>个性签名</h2>
+            <label for="signatureInput"></label><textarea id="signatureInput" placeholder="请输入你的个性签名..." maxlength="30">{{ current_user.signature }}</textarea>
+        </div>
+
+        <!-- 保存按钮 -->
+        <button id="saveBtn">保存设置</button>
+
+        <!-- 提示消息区域 -->
+        <div id="message" class="message"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src={{ url_for('static',filename='JS/user_profile_new.js') }}></script>
+{% endblock %}

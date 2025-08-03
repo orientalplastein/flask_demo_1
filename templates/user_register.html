@@ -1,0 +1,75 @@
+{% extends "universal_navbar.html" %}
+
+{% block title %}忘书Echo-注册{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href={{ url_for('static',filename='CSS/user_register.css') }}>
+    <script src="{{ url_for('static',filename="jquery/jquery-3.6.0.min.js") }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+    <div class="register-container">
+        <div class="register-header">
+            <h2>用户注册</h2>
+        </div>
+        <div class="register-body">
+            <!-- 消息显示区域 -->
+            <div id="messageArea"></div>
+
+            <form method="POST" action="/user/register" id="registerForm">
+                <!-- 用户名字段 -->
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+                
+                <!-- 电子邮箱字段 -->
+                <div class="form-group">
+                    <label for="email">电子邮箱</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="请输入电子邮箱" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                
+                <!-- 验证码字段 -->
+                <div class="form-group">
+                    <label for="email_verify_code">验证码</label>
+                    <div class="verify-code-container">
+                        <input type="text" class="form-control verify-code-input" id="email_verify_code" name="email_verify_code" placeholder="请输入4位验证码" required maxlength="4" minlength="4">
+                        <div id="email_verify_codeError" class="error-message" style="display: none; color: red;"></div>
+                        <button type="button" class="btn btn-secondary verify-code-btn" id="sendVerifyCodeBtn">发送验证码</button>
+                    </div>
+                    <div class="error-message" id="emailVerifyCodeError"></div>
+                    <small class="form-text text-muted">验证码将发送至您的邮箱</small>
+                </div>
+                
+                <!-- 密码字段 -->
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码 (至少8位)" minlength="8" required>
+                    <div class="error-message" id="passwordError"></div>
+                    <span class="form-text">密码至少8位，建议包含字母和数字</span>
+                </div>
+                
+                <!-- 确认密码字段 -->
+                <div class="form-group">
+                    <label for="confirm_password">确认密码</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="请确认密码" minlength="8" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+                
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn">注册</button>
+                
+                <div class="text-center">
+                    <p>已有账号？<a href="/user/login">立即登录</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src={{ url_for('static',filename='JS/user_register.js') }}></script>
+{% endblock %}

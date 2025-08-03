@@ -1,0 +1,70 @@
+{% extends "universal_navbar.html" %}
+
+{% block title %}忘书Echo-探索{% endblock %}
+
+{% block head %}
+    <meta name="base-url" content="{{ url_for('QA.qa_index', _external=False) }}">
+    <meta name="base-url-comment" content="{{ url_for('QA.add_comment', _external=False) }}">
+    <meta name="post-id" content="{{ post.id }}">
+    <link rel="stylesheet" href={{ url_for('static',filename='CSS/qa_details.css') }}>
+    <script src="{{ url_for('static',filename="jquery/jquery-3.6.0.min.js") }}"></script>
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdn.jsdelivr.net_npm_font-awesome@4.7.0_css_font-awesome.css') }}>#}
+{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdnjs.cloudflare.com_ajax_libs_font-awesome_6.7.2_css_all.css') }}>#}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+	<div class="post-container">
+        <h1 class="post-title">{{ post.title }}</h1>
+
+        <div class="post-meta">
+            <div class="avatar">
+                <img src="{{ url_for('static',filename=post.author.avatar) }}" alt="" class="avatar">
+            </div>
+            <div>
+                <span class="post-author">{{ post.author.username }}</span>
+                <span> · </span>
+                <span>{{ post.create_time }}</span>
+            </div>
+        </div>
+
+        <div class="post-content">
+            {{ post.content | safe}}
+            {% if post.image_path %}
+            <p class="post-img"><img src="{{ url_for('static',filename=post.image_path) }}" alt="" style="max-width: -webkit-fill-available"></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="comments-section">
+        <h2 class="comments-title"><i class="fas fa-comments"></i> 评论（{{ comments | length }}）</h2>
+        {% for comment in comments %}
+            <div class="comment-item">
+                <div class="comment-header">
+                    <div class="comment-avatar">
+                        <img src="{{ url_for('static',filename=comment.author.avatar) }}" alt="" class="avatar">
+                    </div>
+                    <span class="comment-user">{{comment.author.username}}</span>
+                    <span class="comment-time">{{ comment.create_time }}</span>
+                </div>
+                <div class="comment-content">
+                    {{ comment.content|safe }}
+                </div>
+            </div>
+        {% endfor %}
+
+
+        <div class="add-comment">
+            <h3 class="comment-form-title">发表评论</h3>
+            <div class="error-message">评论内容不能为空</div>
+            <label>
+                <textarea class="comment-input" placeholder="写下你的评论..."></textarea>
+            </label>
+            <button class="submit-btn" id="submit-comment">提交评论</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src={{ url_for('static',filename='JS/qa_details.js') }}></script>
+{% endblock %}

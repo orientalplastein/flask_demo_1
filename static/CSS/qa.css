@@ -1,0 +1,271 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+/*.page-content{*/
+/*    max-width: 900px; !* 与导航栏最大宽度保持一致 *!*/
+/*    margin: 0 auto; !* 水平居中关键属性 *!*/
+/*    padding: 20px;*/
+/*    width: 100%; !* 确保容器占满可用空间 *!*/
+/*    box-sizing: border-box; !* 确保padding不会增加容器总宽度 *!*/
+/*    position: fixed;*/
+/*}*/
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* 帖子列表样式 */
+.site-main {
+    padding: 50px 0 10px 0;
+}
+
+.content-area {
+    width: 100%;
+}
+
+.post-list {
+    display: grid;
+    gap: 20px;
+}
+
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 帖子作者信息样式 */
+.post-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #f0f0f0;
+    transition: transform 0.3s;
+}
+
+.post-card:hover .author-avatar {
+    transform: scale(1.05);
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.post-time {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+/* 帖子内容样式 */
+.post-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    transition: color 0.3s;
+}
+
+.post-title a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.post-title a:hover {
+    color: #3498db;
+    transform: translateX(3px);
+}
+
+.post-excerpt {
+    color: #555;
+    /*margin-bottom: 20px;*/
+    line-height: 1.7;
+    margin: 10px 20px;
+    text-align: justify;
+}
+
+/* 帖子操作按钮样式 */
+.post-actions {
+    display: flex;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 15px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: #7f8c8d;
+    cursor: pointer;
+    margin-right: 25px;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    padding: 5px 0;
+}
+
+.action-btn:hover {
+    color: #3498db;
+}
+
+.action-btn i {
+    margin-right: 5px;
+    font-size: .95rem;
+}
+
+/* 分页容器 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 分页项通用样式 */
+.pagination li {
+    margin: 0 0.25rem;
+}
+
+/* 分页链接样式 */
+.pagination a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0.5rem;
+    border-radius: 12px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+/* 悬停状态 */
+.pagination a:hover:not(.active):not(.disabled) {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-weight: bolder;
+}
+
+/* 当前页状态 */
+.pagination a.active {
+    background-color: #2c3e50;
+    color: white;
+    border-color: #2c3e50;
+    font-weight: bold;
+}
+
+/* 禁用状态（如第一页的"上一页"） */
+.pagination a.disabled {
+    color: #ccc;
+    border-color: #eee;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 上一页/下一页按钮特殊样式 */
+.pagination a.prev,
+.pagination a.next {
+    width: auto;
+    padding: 0.5rem 1rem;
+}
+
+/* 省略号样式 */
+.pagination span.ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #999;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .pagination li {
+        margin: 0.2rem;
+    }
+
+    /* 在小屏幕上只显示当前页、相邻页和首尾页 */
+    .pagination li:not(.active):not(.prev):not(.next):not(.first):not(.last) {
+        display: none;
+    }
+
+    .pagination li.show-on-mobile {
+        display: block;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 1.3rem;
+    }
+
+    .author-avatar {
+        width: 45px;
+        height: 45px;
+    }
+
+    .action-btn {
+        margin-right: 18px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .post-card {
+        padding: 15px;
+    }
+
+    .action-btn {
+        margin-right: 15px;
+    }
+}

@@ -1,0 +1,33 @@
+{% extends "universal_navbar.html" %}
+
+{% block title %}忘书Echo-首页{% endblock %}
+
+{% block head %}
+	<link rel="stylesheet" href={{ url_for('static',filename='CSS/home.css') }}>
+    <script src={{ url_for('static',filename='jquery/jquery-3.6.0.min.js') }}></script>
+{% endblock %}
+
+{% block content %}
+    <div class="bg-shapes">
+        <div class="bg-shape circle" style="width: 120px; height: 120px; top: 20%; left: 15%; animation-delay: 0s;"></div>
+        <div class="bg-shape triangle" style="top: 30%; right: 10%; animation-delay: 0.5s;"></div>
+        <div class="bg-shape square" style="width: 80px; height: 80px; bottom: 25%; left: 20%; animation-delay: 1s;"></div>
+        <div class="bg-shape pentagon" style="bottom: 15%; right: 15%; animation-delay: 1.5s;"></div>
+        <div class="bg-shape circle" style="width: 60px; height: 60px; top: 60%; left: 30%; animation-delay: 2s;"></div>
+        <div class="bg-shape triangle" style="top: 15%; left: 50%; animation-delay: 2.5s;"></div>
+        <div class="bg-shape square" style="width: 100px; height: 100px; bottom: 30%; right: 25%; animation-delay: 3s;"></div>
+    </div>
+
+    <div class="content-container">
+        <h1 class="main-title">发现思想的交汇点</h1>
+        <p class="sub-title">一个专注于纯粹交流的极简空间</p>
+        <button class="explore-btn" onclick="window.location.href='{{ url_for('QA.qa_index') }}'">
+            开始探索
+            <span class="pulse"></span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+	<script src={{ url_for('static',filename='JS/home.js') }}></script>
+{% endblock %}
