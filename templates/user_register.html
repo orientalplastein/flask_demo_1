@@ -21,7 +21,7 @@
                 <!-- 用户名字段 -->
                 <div class="form-group">
                     <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required maxlength="12">
                     <div class="error-message" id="usernameError"></div>
                 </div>
                 
@@ -71,5 +71,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src={{ url_for('static',filename='JS/user_register.js') }}></script>
+    <script src={{ url_for('static',filename='JS/user_register_new.js') }}></script>
 {% endblock %}

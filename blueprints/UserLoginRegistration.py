@@ -27,10 +27,17 @@ def user_register():
             new_user = User(email=email,username=username,password=generate_password_hash(password))
             db.session.add(new_user)
             db.session.commit()
-            return render_template("register_success.html")
+            return jsonify({
+                "status": "success",
+                "message": "注册成功",
+                "redirect_url": url_for('welcome')  # 提供跳转URL
+            })
         else:
-            print(form.errors)
-            return "false"
+            return jsonify({
+                "status": "error",
+                "message": "表单验证失败",
+                "errors": form.errors  # 返回具体字段错误
+            }), 400
 
 
 @bp.route("/login", methods=["POST","GET"])
@@ -178,10 +185,10 @@ def check_username():
     username = request.json.get('username', '').strip()
     print(username)
     # 1. 基础验证（与前端保持一致）
-    if len(username) < 2 or len(username) > 8:
+    if len(username) < 2 or len(username) > 12:
         return jsonify({
             "valid": False,
-            "message": "用户名长度必须在2-8个字符之间"
+            "message": "用户名长度必须在2-12个字符之间"
         })
     # 2. 数据库查询检查重复性
     exists = User.query.filter_by(username=username).first() is not None
@@ -211,7 +218,7 @@ def check_email():
 @bp.route("/api/verify-code", methods=["POST","GET"])
 def verify_code():
     email = request.json.get('email', '').strip()
-    user_code = request.json.get('code', '').strip()
+    user_code = request.json.get('email_verify_code', '').strip()
     print(email)
     latest_captcha = EmailCaptcha.query.filter_by(email=email) \
         .order_by(EmailCaptcha.id.desc()) \
