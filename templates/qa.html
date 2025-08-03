@@ -29,7 +29,7 @@
                             <h2 class="post-title"><a href="{{ url_for('QA.post_detail',post_id=post.id) }}">{{ post.title }}</a></h2>
                             <hr style="border-color: skyblue;margin: 0 20px;">
                             <div class="post-excerpt">
-                                {{ post.content | safe}}
+                                {{ post.content | replace(' ', '&nbsp;') | safe}}
                             </div>
 {#                            <p class="post-excerpt">{{ post.content | safe}}</p>#}
                             <button class="toggle-content" style="display: none;">显示更多</button>
