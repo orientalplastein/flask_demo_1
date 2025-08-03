@@ -36,6 +36,8 @@ bp = Blueprint("QA", __name__, url_prefix="/QA")
 
 @bp.route("/page")
 def qa_index():
+    if not current_user.is_authenticated:
+        return redirect(url_for('welcome'))
     page = request.args.get("page", 1, type=int)
 
     post_per_page = current_app.config["POST_PER_PAGE"]
@@ -53,6 +55,8 @@ def qa_index():
 
 @bp.route("/posts/<int:post_id>")
 def post_detail(post_id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('welcome'))
     post_select = ForumPost.query.get(post_id)
     qa_comments = ForumPostComment.query.filter_by(post_id=post_id).all()
     return render_template("qa_details.html", post=post_select, comments=qa_comments)
