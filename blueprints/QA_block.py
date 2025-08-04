@@ -29,7 +29,8 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 #AI API相关
-ARK_API_KEY = os.getenv('ARK_API_KEY')
+# ARK_API_KEY = os.getenv('ARK_API_KEY')
+ARK_API_KEY = '2dfb5434-6a04-450c-9f6b-5023bd4977b7'
 ARK_API_URL = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions'
 
 bp = Blueprint("QA", __name__, url_prefix="/QA")
