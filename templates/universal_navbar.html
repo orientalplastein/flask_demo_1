@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}忘书-Echo{% endblock %}</title>
-{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdn.jsdelivr.net_npm_font-awesome@4.7.0_css_font-awesome.css') }}>#}
-{#    <link rel="stylesheet" href={{ url_for('static',filename='CSS/http_cdnjs.cloudflare.com_ajax_libs_font-awesome_6.7.2_css_all.css') }}>#}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    {% from "_macro.html" import css_fontawesome %}
+    {{ css_fontawesome(["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css","https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"]) }}
+    <link rel="icon" href="{{ url_for('static',filename = 'favicon.ico') }}">
     <style>
         .zhihu-nav {
             background-color: rgb(211 227 226 / 100%);

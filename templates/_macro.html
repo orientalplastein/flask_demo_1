@@ -1,0 +1,8 @@
+{% macro css_fontawesome(filename_or_urls,local=False) %}
+    {% for filename_or_url in filename_or_urls %}
+        {% if local %}
+            {% set filename_or_url=url_for('static',filename='css/'+filename_or_url) %}
+        {% endif %}
+        <link rel="stylesheet" href="{{ filename_or_url }}">
+    {% endfor %}
+{% endmacro %}
